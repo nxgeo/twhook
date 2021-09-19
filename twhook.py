@@ -1,7 +1,5 @@
 from typing import Union
-
-from requests import request
-from requests_oauthlib import OAuth1, OAuth2
+from requests_oauthlib import OAuth1, OAuth2Session
 
 
 class TwhookError(Exception):
@@ -32,13 +30,13 @@ class Twhook:
 
         self.env_name = env_name
 
-        self._user_context_auth = OAuth1(
-            self.consumer_key, self.consumer_secret,
-            access_token, access_token_secret
+        self._client = OAuth2Session(
+            token={'access_token': bearer_token}
         )
 
-        self._app_only_auth = OAuth2(
-            token={'access_token': bearer_token}
+        self._auth = OAuth1(
+            self.consumer_key, self.consumer_secret,
+            access_token, access_token_secret
         )
 
     def _request(
@@ -48,9 +46,8 @@ class Twhook:
         if with_env:
             endpoint = f'{self.env_name}/{endpoint}'
 
-        response = request(
-            method, Twhook.BASE_URL+endpoint, data=data,
-            auth=(auth or self._app_only_auth)
+        response = self._client.request(
+            method, Twhook.BASE_URL+endpoint, data=data, auth=auth
         )
 
         if response.status_code not in [200, 204]:
@@ -64,8 +61,7 @@ class Twhook:
     def register(self, url: str) -> dict:
         """Registers a webhook URL."""
         return self._request(
-            'POST', 'webhooks.json', data={'url': url},
-            auth=self._user_context_auth
+            'POST', 'webhooks.json', data={'url': url}, auth=self._auth
         )
 
     def trigger_crc(self, webhook_id: str) -> bool:
@@ -94,7 +90,7 @@ class Twhook:
                 token, secret
             )
         else:
-            auth = self._user_context_auth
+            auth = self._auth
 
         return self._request(method, 'subscriptions.json', auth=auth)
 
@@ -106,11 +102,11 @@ class Twhook:
         """Check to see if a webhook subscribed to an account."""
         return self._subscription('GET', **kwargs)
 
-    def get_subscriptions_count(self) -> dict:
+    def get_subscription_count(self) -> dict:
         """Returns a count of currently active subscriptions."""
         return self._request('GET', 'subscriptions/count.json', False)
 
-    def get_subscriptions_list(self) -> dict:
+    def get_subscription_list(self) -> dict:
         """Returns a list of currently active subscriptions."""
         return self._request('GET', 'subscriptions/list.json')
 
