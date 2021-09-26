@@ -39,10 +39,8 @@ class Twhook:
             access_token, access_token_secret
         )
 
-    def _request(
-            self, method, endpoint, with_env=True,
-            data=None, auth=None
-    ):
+    def _request(self, method, endpoint, with_env=True,
+                 data=None, auth=None):
         if with_env:
             endpoint = f'{self.env_name}/{endpoint}'
 
@@ -51,7 +49,7 @@ class Twhook:
         )
 
         if response.status_code not in [200, 204]:
-            raise TwhookError(response.json())
+            raise TwhookError(response.json()['errors'])
 
         if response.status_code == 204:
             return True
@@ -80,7 +78,6 @@ class Twhook:
             self, method: str,
             token: str = None, secret: str = None
     ) -> bool:
-        """Handling methods subscribe() and is_subscribed()."""
         if (token and not secret) or (not token and secret):
             raise TwhookError('Incomplete credentials.')
 
