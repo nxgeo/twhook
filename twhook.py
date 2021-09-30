@@ -35,7 +35,7 @@ class Twhook:
         )
 
         self._auth = OAuth1(
-            self.consumer_key, self.consumer_secret,
+            consumer_key, consumer_secret,
             access_token, access_token_secret
         )
 
@@ -91,13 +91,13 @@ class Twhook:
 
         return self._request(method, 'subscriptions.json', auth=auth)
 
-    def subscribe(self, **kwargs) -> bool:
+    def subscribe(self, **creds) -> bool:
         """Subscribes an application to an account's events."""
-        return self._subscription('POST', **kwargs)
+        return self._subscription('POST', **creds)
 
-    def is_subscribed(self, **kwargs) -> bool:
+    def is_subscribed(self, **creds) -> bool:
         """Check to see if a webhook subscribed to an account."""
-        return self._subscription('GET', **kwargs)
+        return self._subscription('GET', **creds)
 
     def get_subscription_count(self) -> dict:
         """Returns a count of currently active subscriptions."""
