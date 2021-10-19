@@ -30,7 +30,7 @@ class Twhook:
 
         self.env_name = env_name
 
-        self._client = OAuth2Session(
+        self._session = OAuth2Session(
             token={'access_token': bearer_token}
         )
 
@@ -39,14 +39,16 @@ class Twhook:
             access_token, access_token_secret
         )
 
-    def _request(self, method, endpoint, with_env=True,
-                 data=None, auth=None):
+    def _request(self, method, endpoint, with_env=True, data=None, auth=None):
         if with_env:
             endpoint = f'{self.env_name}/{endpoint}'
 
-        response = self._client.request(
-            method, Twhook.BASE_URL+endpoint, data=data, auth=auth
-        )
+        try:
+            response = self._session.request(
+                method, Twhook.BASE_URL+endpoint, data=data, auth=auth
+            )
+        finally:
+            self._session.close()
 
         if response.status_code not in [200, 204]:
             raise TwhookError(response.json()['errors'])
