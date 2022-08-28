@@ -1,14 +1,9 @@
 <p align="center">
     <img src="https://bit.ly/39k5XBT" alt="twhook">
 </p>
-<p align="center">
-    <img src="https://bit.ly/3jWHiJZ" alt="py">
-    <img src="https://bit.ly/2Xvcash" alt="twt-api">
-    <img src="https://bit.ly/38WBrOt" alt="mit">
-</p>
 
 ## About
-twhook is a simple Twitter Premium Account Activity API wrapper that helps you to manage webhooks and subscriptions.
+Twhook is a simple Twitter Premium Account Activity API wrapper that helps you to manage webhooks and subscriptions.
 
 ## Installation
 Git:
@@ -23,14 +18,14 @@ pip install twhook
 ```
 
 ## Examples
-For easy implementation examples, see [twhook/examples/](https://bit.ly/3CseaAr).
+For basic implementation, see [twhook/examples](https://github.com/nxgeo/twhook/tree/master/examples).
 
 ## Suggestion
-As described in the [Twitter Securing Webhooks](https://bit.ly/3AnGjZ2) guide, a first step is writing code that receives a Twitter Challenge-Response Check (CRC) GET request and responds with a properly formatted JSON response.
+As described in the [Twitter Securing Webhook](https://developer.twitter.com/en/docs/twitter-api/premium/account-activity-api/guides/securing-webhooks) guide, the first step is writing code that receives a Twitter Challenge-Response Check (CRC) GET request and responds with a properly formatted JSON response.
 
 A CRC will be sent when you register your webhook URL, so implementing your CRC response code is a fundamental first step.
 
-[HERE](https://bit.ly/3ClNq4P) is an example of implementing a CRC response in Python.
+[Here](https://gist.github.com/nxgeo/74f35a3ab5951740892f811a83f2d403) is an example of implementing a CRC response in Python.
 
 ## Reference
-[Account Activity API: Premium](https://bit.ly/3zg8JTq)
+[Account Activity API: Premium](https://developer.twitter.com/en/docs/twitter-api/premium/account-activity-api)

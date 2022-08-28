@@ -1,24 +1,26 @@
-from twhook import Twhook, TwhookError
+from twhook import Twhook
+from twhook.errors import TwhookError
 
-CONSUMER_KEY = ''
-CONSUMER_SECRET = ''
-ACCESS_TOKEN = ''
-ACCESS_TOKEN_SECRET = ''
-BEARER_TOKEN = ''
+ENV_NAME = ""
 
-ENV_NAME = ''
+BEARER_TOKEN = ""
 
-twh = Twhook(
-    CONSUMER_KEY, CONSUMER_SECRET,
-    ACCESS_TOKEN, ACCESS_TOKEN_SECRET,
-    BEARER_TOKEN, ENV_NAME
+API_KEY = ""
+API_KEY_SECRET = ""
+ACCESS_TOKEN = ""
+ACCESS_TOKEN_SECRET = ""
+
+twhook = Twhook(
+    ENV_NAME, BEARER_TOKEN,
+    API_KEY, API_KEY_SECRET,
+    ACCESS_TOKEN, ACCESS_TOKEN_SECRET
 )
 
-url = ''
+webhook_url = ""
 
 try:
-    r = twh.register(url)
+    response = twhook.webhook.register(webhook_url)
 except TwhookError as e:
     print(e)
 else:
-    print(r)
+    print(response)

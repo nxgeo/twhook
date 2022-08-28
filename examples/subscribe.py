@@ -1,23 +1,28 @@
-from twhook import Twhook, TwhookError
+from twhook import Twhook
+from twhook.errors import TwhookError
 
-CONSUMER_KEY = ''
-CONSUMER_SECRET = ''
-ACCESS_TOKEN = ''
-ACCESS_TOKEN_SECRET = ''
-BEARER_TOKEN = ''
+ENV_NAME = ""
 
-ENV_NAME = ''
+BEARER_TOKEN = ""
 
-twh = Twhook(
-    CONSUMER_KEY, CONSUMER_SECRET,
-    ACCESS_TOKEN, ACCESS_TOKEN_SECRET,
-    BEARER_TOKEN, ENV_NAME
+API_KEY = ""
+API_KEY_SECRET = ""
+ACCESS_TOKEN = ""
+ACCESS_TOKEN_SECRET = ""
+
+twhook = Twhook(
+    ENV_NAME, BEARER_TOKEN,
+    API_KEY, API_KEY_SECRET,
+    ACCESS_TOKEN, ACCESS_TOKEN_SECRET
 )
 
+# access_token = ""
+# access_token_secret = ""
+
 try:
-    r = twh.subscribe()
-    # r = twh.subscribe(token='', secret='')
+    response = twhook.subscription.add()
+    # response = twhook.subscription.add(access_token, access_token_secret)
 except TwhookError as e:
     print(e)
 else:
-    print(r)
+    print(response)
